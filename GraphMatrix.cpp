@@ -2,14 +2,34 @@
 
 GraphMatrix::GraphMatrix(int numV, GType type) {
     // TODO
+    v = numV;
+    
+    if (type == 0){
+        graphType = UNDIRECTED;
+    } else if (type == 1){
+        graphType = DIRECTED;
+    }
 }
 
 GraphMatrix::~GraphMatrix() {
     // TODO
+    for (int i = 0; i <= v; ++i){
+        delete[] adjMatrix[i];
+    }
+
+    delete[] adjMatrix;
+
+    adjMatrix = nullptr;
 }
 
 bool GraphMatrix::isEdge(int i, int j) const {
     // TODO
+    if (adjMatrix[i][j] == true) { // if there is a connection from i to j
+        return true;
+    } else {
+        return false;
+    }
+
 }
 
 ostream& GraphMatrix::print(ostream& os) const {
@@ -38,4 +58,20 @@ ostream& GraphMatrix::print(ostream& os) const {
 
 void GraphMatrix::toggleEdge(int i, int j) {
     // TODO
+    if ((i < 0 || i >= v) && (j < 0 || j >= v)) {
+        throw string("error: Out of bounds.");
+    }
+
+    if (adjMatrix[i][j] == true){
+        adjMatrix[i][j] = false;
+        --e;
+    } else {
+        adjMatrix[i][j] = true;
+        ++e;
+    }
+
+    if (Graph::graphType == UNDIRECTED){
+        adjMatrix[j][i] = adjMatrix[i][j];
+    }
+
 }
