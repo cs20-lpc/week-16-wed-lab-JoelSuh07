@@ -3,17 +3,27 @@
 GraphMatrix::GraphMatrix(int numV, GType type) {
     // TODO
     v = numV;
+    e = 0;
     
+    adjMatrix = new bool*[v];
+    for (int i = 0; i < v; ++i) {
+        adjMatrix[i] = new bool[v];
+        for (int j = 0; j < v; ++j) {
+            adjMatrix[i][j] = false;
+        }
+    }
+
     if (type == 0){
         graphType = UNDIRECTED;
     } else if (type == 1){
         graphType = DIRECTED;
     }
+
 }
 
 GraphMatrix::~GraphMatrix() {
     // TODO
-    for (int i = 0; i <= v; ++i){
+    for (int i = 0; i < v; ++i){
         delete[] adjMatrix[i];
     }
 
@@ -24,16 +34,15 @@ GraphMatrix::~GraphMatrix() {
 
 bool GraphMatrix::isEdge(int i, int j) const {
     // TODO
-    if ((i < 0 || i >= v) && (j < 0 || j >= v)) {
+    if ((i < 0 || i >= v) || (j < 0 || j >= v)) {
         throw string ("error: Out of bounds.");
     }
-
-    if (adjMatrix[i][j] == true) { // if there is a connection from i to j
+    return adjMatrix[i][j];
+    /*if (adjMatrix[i][j] == true) { // if there is a connection from i to j
         return true;
     } else {
         return false;
-    }
-
+    }*/
 }
 
 ostream& GraphMatrix::print(ostream& os) const {
@@ -62,7 +71,7 @@ ostream& GraphMatrix::print(ostream& os) const {
 
 void GraphMatrix::toggleEdge(int i, int j) {
     // TODO
-    if ((i < 0 || i >= v) && (j < 0 || j >= v)) {
+    if ((i < 0 || i >= v) || (j < 0 || j >= v)) {
         throw string("error: Out of bounds.");
     }
 
